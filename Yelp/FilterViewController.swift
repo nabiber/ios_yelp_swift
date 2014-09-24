@@ -17,6 +17,7 @@ protocol FilterViewControllerDelegate {
 class FilterViewController: UIViewController {
     
     
+    @IBOutlet weak var priceRatingControl: UISegmentedControl!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,5 +40,15 @@ class FilterViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
+        return 4
+    }
+    
+
 
 }

@@ -20,6 +20,7 @@
 		A8CA9C5C19D1178D005EA787 /* BusinessCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8CA9C5B19D1178D005EA787 /* BusinessCell.swift */; };
 		A8CA9C5E19D1477C005EA787 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8CA9C5D19D1477C005EA787 /* Helper.swift */; };
 		A8D06CD119CFA75500C97EA6 /* JSONHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D06CD019CFA75500C97EA6 /* JSONHelper.swift */; };
+		A8F8CBC019D2A479006B7C21 /* PriceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F8CBBF19D2A479006B7C21 /* PriceCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +51,7 @@
 		A8CA9C5B19D1178D005EA787 /* BusinessCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessCell.swift; sourceTree = "<group>"; };
 		A8CA9C5D19D1477C005EA787 /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		A8D06CD019CFA75500C97EA6 /* JSONHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONHelper.swift; sourceTree = "<group>"; };
+		A8F8CBBF19D2A479006B7C21 /* PriceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PriceCell.swift; sourceTree = "<group>"; };
 		C56EF0CE844A4EE5819C72AF /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4E76156B42F474DB4157657 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -174,6 +176,7 @@
 			isa = PBXGroup;
 			children = (
 				A8CA9C5B19D1178D005EA787 /* BusinessCell.swift */,
+				A8F8CBBF19D2A479006B7C21 /* PriceCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -314,6 +317,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A8CA9C5C19D1178D005EA787 /* BusinessCell.swift in Sources */,
+				A8F8CBC019D2A479006B7C21 /* PriceCell.swift in Sources */,
 				A8CA9C5019D0FBB3005EA787 /* FilterViewController.swift in Sources */,
 				222D8A5D19CCF9F900D2DB53 /* ViewController.swift in Sources */,
 				222D8A7D19CCFAE000D2DB53 /* YelpClient.swift in Sources */,
