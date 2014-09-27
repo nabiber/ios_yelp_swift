@@ -10,12 +10,17 @@ import UIKit
 
 protocol FilterViewControllerDelegate {
     
-    func searchTermDidChange()
+    func searchTermDidChange(filterViewController: FilterViewController, deal: Bool, radiusFilter: String, sortBy: String, categories: [String:Bool])
     
 }
 
 class FilterViewController: UIViewController {
     
+    var delegate: FilterViewControllerDelegate!
+    var deal: Bool! = false
+    var categories: [String:Bool]! = [String:Bool]()
+    var sortBy = "0"
+    var radiusFilter = ""
     
     @IBOutlet weak var priceRatingControl: UISegmentedControl!
 
@@ -31,6 +36,16 @@ class FilterViewController: UIViewController {
     }
     
 
+    @IBAction func onCancelButton(sender: UIBarButtonItem) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    
+    @IBAction func onSearchButton(sender: UIBarButtonItem) {
+        self.delegate.searchTermDidChange(self, deal: deal, radiusFilter: radiusFilter, sortBy: sortBy, categories: categories)
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
     /*
     // MARK: - Navigation
 
@@ -41,14 +56,5 @@ class FilterViewController: UIViewController {
     }
     */
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-    
-    func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
-        return 4
-    }
-    
-
 
 }

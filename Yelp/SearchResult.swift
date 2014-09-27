@@ -42,8 +42,27 @@ class SearchResult {
                 return "\(categoryArr[0])"
         })
         
+    }
     
-        
+    class func searchWithQuery(query: String, callback: ([SearchResult]!, NSError!) -> Void) {
+        YelpClient.sharedInstance.searchWithTerm(
+            query,
+            success: {
+                (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
+                // println(response)
+                var results = (response as NSDictionary)["businesses"] as [NSDictionary]
+                var businesses = results.map({
+                    (businessDict: NSDictionary) -> SearchResult in
+                    SearchResult(data: businessDict)
+                })
+                callback(businesses, nil)
+            },
+            failure: {
+                (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
+                // println(error)
+                callback(nil, error)
+            }
+        )
     }
        
 }

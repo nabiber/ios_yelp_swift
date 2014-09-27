@@ -9,7 +9,7 @@
 import UIKit
 
 class BusinessCell: UITableViewCell {
-    
+
     @IBOutlet weak var thumbnailView: UIImageView!
     
     @IBOutlet weak var ratingView: UIImageView!
@@ -27,7 +27,19 @@ class BusinessCell: UITableViewCell {
     
     @IBOutlet weak var distanceLabel: UILabel!
     
-    var searchResult: SearchResult!
+   
+    var searchResult: SearchResult! {
+        
+        willSet(searchResult) {
+            populateCell(searchResult)
+        }
+        
+        
+        didSet(oldValue) {
+            //
+        }
+    }
+
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -36,26 +48,27 @@ class BusinessCell: UITableViewCell {
 
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
+    }
+        
+    func populateCell(searchResult: SearchResult)
+    {
         // Configure the view for the selected state
-        var url = self.searchResult.imageUrl
-        self.thumbnailView.setImageWithURL(self.searchResult.imageUrl)
-        self.nameLabel.text = self.searchResult.name
-        self.distanceLabel.text = self.searchResult.distance
+        var url = searchResult.imageUrl
+        self.thumbnailView.setImageWithURL(searchResult.imageUrl)
+        self.nameLabel.text = searchResult.name
+        self.distanceLabel.text = searchResult.distance
         
-        self.ratingView.setImageWithURL(self.searchResult.ratingURL)
+        self.ratingView.setImageWithURL(searchResult.ratingURL)
         
-        self.reviewLabel.text = "\(self.searchResult.numOfReviews) Reviews"
+        self.reviewLabel.text = "\(searchResult.numOfReviews) Reviews"
         
-        self.displayAddressLabel.text = self.searchResult.displayAddress
+        self.displayAddressLabel.text = searchResult.displayAddress
         
-        self.categoriesLabel.text = self.searchResult.categories
+        self.categoriesLabel.text = searchResult.categories
         
-        self.priceRatingLabel.text = self.searchResult.priceRating
-
+        self.priceRatingLabel.text = searchResult.priceRating
+        
     }
     
-    func addSearchResult(searchResult: SearchResult) {
-        self.searchResult = searchResult
-    }
 }

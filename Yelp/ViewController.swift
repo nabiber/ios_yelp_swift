@@ -8,21 +8,12 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    var client: YelpClient!
-    
-    // You can register for Yelp API keys here: http://www.yelp.com/developers/manage_api_keys
-    let yelpConsumerKey = "nUjddnVqhLB-8g3XFxLa7w"
-    let yelpConsumerSecret = "MBA5pputws_K-omJ8lCkc9rgjxE"
-    let yelpToken = "McUoPa8XkG8pVBoyVFgBNpqFmtzahRqW"
-    let yelpTokenSecret = "VxKYwD71miWVxIjbZ_-pNvETgKc"
-    
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, FilterViewControllerDelegate {
+   
     var businesses: [SearchResult] = [];
     
     
     @IBOutlet weak var searchTableView: UITableView!
-    
-    
     
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -33,23 +24,25 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         self.searchTableView.delegate = self
         self.searchTableView.dataSource  = self
+      //  self.searchTableView.rowHeight = UITableViewAutomaticDimension
        
-        // Do any additional setup after loading the view, typically from a nib.
-        client = YelpClient(consumerKey: yelpConsumerKey, consumerSecret: yelpConsumerSecret, accessToken: yelpToken, accessSecret: yelpTokenSecret)
-        
-        client.searchWithTerm("Thai", success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
-       //    var data = JsonHelper.JSONParseDict( JsonHelper.JSONStringify(response))
-        var businessesDict = (response as NSDictionary)["businesses"] as [NSDictionary]
+        self.searchWithQuery("Thai")
+    }
+    
+    private func searchWithQuery(query: String) {
+        SearchResult.searchWithQuery(query, {
+            (businesses: [SearchResult]!, error: NSError!) -> Void in
             
-        self.businesses = businessesDict.map({ (business: NSDictionary) -> SearchResult in
-            SearchResult(data: business)
+            if businesses != nil {
+                self.businesses = businesses
+                self.searchTableView.reloadData()
+            }
+            
+            if error != nil {
+                println(error)
+            }
         })
-        self.searchTableView.reloadData()
 
-        }) { (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
-            println(error)
-        }
-       
     }
     
     override func didReceiveMemoryWarning() {
@@ -67,13 +60,33 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell: BusinessCell = tableView.dequeueReusableCellWithIdentifier("BusinessCell") as BusinessCell
         
-        var sr = self.businesses[indexPath.row] as SearchResult
-        cell.addSearchResult(sr)
+        cell.searchResult = self.businesses[indexPath.row] as SearchResult
         
         return cell
     }
     
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
+    }
     
+    
+    // MARK: - Navigation
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
+    // Get the new view controller using segue.destinationViewController.
+    // Pass the selected object to the new view controller.
+        var filtersNavigationController = segue.destinationViewController as UINavigationController
+        
+        var filterViewController = filtersNavigationController.viewControllers[0] as FilterViewController
+        filterViewController.delegate = self
+    }
+    
+    func searchTermDidChange(filterViewController: FilterViewController, deal: Bool, radiusFilter: String, sortBy: String, categories: [String:Bool]) {
+        println("Search Term Did Change")
+        
+    }
+
     
 }
 
