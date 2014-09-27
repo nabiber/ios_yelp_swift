@@ -44,9 +44,9 @@ class SearchResult {
         
     }
     
-    class func searchWithQuery(query: String, callback: ([SearchResult]!, NSError!) -> Void) {
+    class func searchWithQuery(query: String, params: [String: String], callback: ([SearchResult]!, NSError!) -> Void) {
         YelpClient.sharedInstance.searchWithTerm(
-            query,
+            query, params: params,
             success: {
                 (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
                 // println(response)

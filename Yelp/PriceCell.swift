@@ -8,8 +8,13 @@
 
 import UIKit
 
-class PriceCell: UITableViewCell {
+protocol PriceCellDelegate {
+    func priceValueChanged(priceCell: PriceCell, newValue: String)
+}
 
+class PriceCell: UITableViewCell {
+    var delegate: PriceCellDelegate!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -19,6 +24,12 @@ class PriceCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    
+    @IBAction func onValueChanged(sender: UISegmentedControl) {
+        let currentValue = sender.titleForSegmentAtIndex(sender.selectedSegmentIndex)
+        self.delegate?.priceValueChanged(self, newValue: currentValue)
     }
 
 }

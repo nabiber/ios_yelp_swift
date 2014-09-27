@@ -2,7 +2,7 @@
 //  ViewController.swift
 //  Yelp
 //
-//  Created by Timothy Lee on 9/19/14.
+//  Created by Nabib El-Rahman on 9/19/14.
 //  Copyright (c) 2014 Timothy Lee. All rights reserved.
 //
 
@@ -11,6 +11,13 @@ import UIKit
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, FilterViewControllerDelegate {
    
     var businesses: [SearchResult] = [];
+    
+    var price: String!
+    var deal: Bool! = false
+    var categories: [String]! = [String]()
+    var sortBy = "0"
+    var radiusFilter = ""
+    var lastSearchString = "Thai"
     
     
     @IBOutlet weak var searchTableView: UITableView!
@@ -25,12 +32,37 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.searchTableView.delegate = self
         self.searchTableView.dataSource  = self
       //  self.searchTableView.rowHeight = UITableViewAutomaticDimension
+        
+        var color: UIColor = UIColor(red: CGFloat(196/255.0), green: CGFloat(18/255.0), blue: CGFloat(0), alpha: CGFloat(1))
+        self.navigationController?.navigationBar.barTintColor = color
+        
+       // self.searchTableView.rowHeight = UITableViewAutomaticDimension
        
-        self.searchWithQuery("Thai")
+        self.searchWithQuery(lastSearchString)
     }
     
     private func searchWithQuery(query: String) {
-        SearchResult.searchWithQuery(query, {
+        
+        var params = ["term": query]
+        params["location"] = "San Francisco"
+        params["sort"] = sortBy
+        var cat = Helper.arrayToCSV(self.categories)
+        if(cat != "") {
+            params["categories_filter"] = cat
+        }
+        if price != nil {
+            // figure out price here.
+        }
+        if deal == true {
+            params["deals_filter"] = "true"
+        }
+        
+        if radiusFilter != "" {
+            params["radius_filter"] = radiusFilter
+        }
+
+        
+        SearchResult.searchWithQuery(query, params: params, {
             (businesses: [SearchResult]!, error: NSError!) -> Void in
             
             if businesses != nil {
@@ -82,7 +114,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         filterViewController.delegate = self
     }
     
-    func searchTermDidChange(filterViewController: FilterViewController, deal: Bool, radiusFilter: String, sortBy: String, categories: [String:Bool]) {
+    func searchTermDidChange(filterViewController: FilterViewController, price: String, deal: Bool, radiusFilter: String, sortBy: String, categories: [String]) {
+        self.price = price
+        self.deal = deal
+        self.radiusFilter = radiusFilter
+        self.sortBy = sortBy
+        self.categories = categories
+        self.searchWithQuery(lastSearchString)
+        println("Price: \(self.price)")
         println("Search Term Did Change")
         
     }

@@ -39,6 +39,19 @@ class Helper {
     class func arrayCombine(arr: NSArray, sep: String, closure: (item: AnyObject) -> String) -> String {
         return arr.combine(sep, closure)
     }
+
+
+    class func arrayToCSV(arr: NSArray) -> String {
+        var csv: String = ""
+        for(var i = 0 ;i < arr.count; i++) {
+            if(i == arr.count - 1) {
+                csv += arr[i] as String
+            } else {
+                csv += (arr[i] as String) + ","
+            }
+        }
+        return csv
+    }
     
    
 }
